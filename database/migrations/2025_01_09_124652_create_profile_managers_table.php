@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("morada");
             $table->string("nif");
             $table->string("iban");
-            $table->string("salário");
+            $table->string("salario");
             $table->string("descricao");
 
             $table->uuid("manager_id");
