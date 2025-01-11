@@ -14,7 +14,9 @@ class BookingController extends Controller
 
     public function index()
     {
-        $bookings = Booking::all();
+        $bookings = Booking::with(['client', 'manager', 'local', 'catering'])
+            ->get();
+
         return response()->json($bookings);
     }
 
@@ -56,5 +58,18 @@ class BookingController extends Controller
             "message"=>"Reserva eliminada com sucesso",
             'booking' => $booking
         ]);
+    }
+
+    public function getbookingdetails($ids)
+    {
+        // converte os id num array
+        $idArray = explode(',', $ids);
+
+        $booking = Booking::whereIn('id', $idArray)
+            ->with(['client', 'manager', 'local', 'catering'])
+            ->get();
+
+        return response()->json($booking);
+
     }
 }

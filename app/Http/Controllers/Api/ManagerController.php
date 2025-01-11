@@ -8,6 +8,9 @@ use App\Models\Manager;
 use App\Models\profile_manager;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Requests\StoreManagerRequest;
+use App\Http\Requests\UpdateManagerRequest;
+use App\Http\Requests\StoreProfileRequest;
 
 
 class ManagerController extends Controller
@@ -20,17 +23,9 @@ class ManagerController extends Controller
     }
 
     // acessível a todos
-    public function storeManager(Request $request)
+    public function storeManager(StoreManagerRequest $request)
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'telefone' => 'required|string|max:20',
-            'email' => 'required|email|unique:managers,email'
-        ], [
-            'telefone.max' => 'O campo telefone aceita no máximo 20 caracteres.',
-            'nome.max' => 'O campo nome aceita no máximo 255 caracteres.',
-            'email.unique' => 'Este email já está a ser utilizado noutra conta. Por favor escolha outro.',
-        ]);
+        $validated = $request->validate();
 
         $manager = Manager::create($validated);
 
@@ -41,7 +36,7 @@ class ManagerController extends Controller
     }
 
     // acessível a user
-    public function update(Request $request, string $id)
+    public function updateManager(Request $request, string $id)
     {
         $manager = Manager::findOrFail($id);
 
@@ -50,7 +45,7 @@ class ManagerController extends Controller
             'telefone' => 'required|string|max:20',
         ], [
             'email.unique' => 'Este email já está a ser utilizado noutra conta. Por favor escolha outro.',
-            'telefone.max' => 'O campo telefone aceita no máximo 20 caracteres.',
+            'telefone.max' => 'O campo telefone aceita no máximo 20 caracteres.'
         ]);
 
         $manager->update($validated);
@@ -89,27 +84,14 @@ class ManagerController extends Controller
     }
 
     // acessível a user
-    public function storeProfile(Request $request, $managerId)
+    public function storeProfile(StoreProfileRequest $request, $managerId)
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        // verifica se o manager existe
         $manager = Manager::findOrFail($managerId);
 
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string|max:255',
-            'morada' => 'required|string|max:255',
-            'nif' => 'required|string|max:255',  
-            'iban' => 'required|string|max:255',
-            'salario' => 'required|string|max:255'
-        ], [
-            'descricao.max' => 'A descrição não pode exceder 255 caracteres.',
-            'nome.max' => 'O campo nome tem no máximo 255 caracteres.',
-            'nif.max' => 'O campo NIF não pode exceder 255 caracteres.',  
-        ]);
+        $validated = $request->validate();
 
-        // Verifica se o manager já possui um perfil
         if ($manager->profile_manager) {
             return response()->json([
                 'error' => 'Este manager já tem perfil.'
