@@ -23,9 +23,16 @@ class StoreLocalRequest extends FormRequest
 
     public function messages() {
         return [
-            'nome.max' => 'O campo aceita no máximo de 255 caracteres',
-            'morada.max' => 'O campo aceita no máximo de 255 caracteres',
-            'telefone.max' => 'O campo aceita no máximo de 20 caracteres',
+            'nome.required' => 'Por favor, insira o nome.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'morada.required' => 'Por favor, insira a morada.',
+            'morada.max' => 'A morada não pode ter mais de 255 caracteres.',
+
+            'telefone.required' => 'Por favor, insira o número de telefone.',
+            'telefone.max' => 'O número de telefone não pode ter mais de 20 caracteres.',
+
+            'num_max_pessoas.required' => 'Por favor, insira o número máximo de pessoas.',
         ]; 
      }
 }

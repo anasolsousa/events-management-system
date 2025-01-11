@@ -23,10 +23,18 @@ class StoreClientRequest extends FormRequest
 
     public function messages() {
         return [
-            'nome.max' => 'O campo aceita no máximo de 255 caracteres',
-            'telefone.max' => 'O campo aceita no máximo de 20 caracteres',
-            'email.unique' => 'Este email já está a ser utilizado noutra conta. Por favor escolha outro.',
-            'nif.max' => 'O campo aceita no máximo de 20 caracteres'
+            'nome.required' => 'Por favor, insira o nome.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+    
+            'telefone.required' => 'Por favor, insira o número de telefone.',
+            'telefone.max' => 'O número de telefone não pode ter mais de 20 caracteres.',
+    
+            'email.required' => 'Por favor, insira o e-mail.',
+            'email.email' => 'Por favor, insira um e-mail válido.',
+            'email.unique' => 'O e-mail fornecido já está em uso. Por favor, use outro e-mail.',
+    
+            'nif.required' => 'Por favor, insira o NIF.',
+            'nif.max' => 'O NIF não pode ter mais de 20 caracteres.',
         ]; 
      }
 }

@@ -23,12 +23,26 @@ class StoreProfileRequest extends FormRequest
             'salario' => 'required|string|max:255'
         ];
     }
-    public function message()
+    public function messages()
     {
         return [
-            'descricao.max' => 'A descrição não pode exceder 255 caracteres.',
-            'nome.max' => 'O campo nome tem no máximo 255 caracteres.',
-            'nif.max' => 'O campo NIF não pode exceder 255 caracteres.',  
+            'nome.required' => 'Por favor, insira o nome.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'descricao.required' => 'Por favor, insira a descrição.',
+            'descricao.max' => 'A descrição não pode ter mais de 255 caracteres.',
+
+            'morada.required' => 'Por favor, insira a morada.',
+            'morada.max' => 'A morada não pode ter mais de 255 caracteres.',
+
+            'nif.required' => 'Por favor, insira o NIF.',
+            'nif.max' => 'O NIF não pode ter mais de 255 caracteres.',
+
+            'iban.required' => 'Por favor, insira o IBAN.',
+            'iban.max' => 'O IBAN não pode ter mais de 255 caracteres.',
+
+            'salario.required' => 'Por favor, insira o salário.',
+            'salario.max' => 'O salário não pode ter mais de 255 caracteres.', 
         ];
     }
 }

@@ -30,10 +30,23 @@ class StoreBookingRequest extends FormRequest
     public function messages()
     {
         return [
-            'descricao.max' => 'A descricao não pode execeder 255 caracteres.',
-            'client_id.exists' => 'Cliente não encontrado',
-            'manager_id.exists' => 'Manager não encontrado',
-            'local_id.exists' => 'Local não encontrado',
+            'data_evento.required' => 'Por favor, insira a data do evento.',
+            'valor_total.required' => 'Por favor, insira o valor total.',
+            'estado.required' => 'Por favor, insira o estado do evento.',
+            'num_convidados.required' => 'Por favor, insira o número de convidados.',
+            'descricao.required' => 'Por favor, insira uma descrição.',
+        
+            'client_id.required' => 'Escolha um cliente, este campo é obrigatório.',
+            'client_id.exists' => 'O cliente fornecido não foi encontrado.',
+        
+            'manager_id.required' => 'Escolha um gestor, este campo é obrigatório.',
+            'manager_id.exists' => 'O gestor fornecido não foi encontrado.',
+        
+            'local_id.required' => 'Escolha um local, este campo é obrigatório.',
+            'local_id.exists' => 'O local fornecido não foi encontrado.',
+        
+            'catering_id.required' => 'Escolha um catering, este campo é obrigatório.',
+            'catering_id.exists' => 'O catering fornecido não foi encontrado.',
         ];
     }
 }

@@ -15,9 +15,19 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required"],
-            "email" => ["required"],
-            "password" => ["required"]
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "name.required" => "O campo nome é obrigatório.",
+            "email.required" => "O campo email é obrigatório.",
+            "password.required" => "O campo senha é obrigatório.",
+            "email.unique" => "O email fornecido já está em uso.",
         ];
     }
 }

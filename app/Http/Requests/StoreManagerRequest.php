@@ -19,12 +19,18 @@ class StoreManagerRequest extends FormRequest
             'email' => 'required|email|unique:managers,email'
         ];
     }
-    public function message()
+    public function messages()
     {
         return [
-            'telefone.max' => 'O campo aceita no máximo de 20 caracteres',
-            'nome.max' => 'O campo aceita no máximo de 255 caracteres',
-            'email.unique' => 'Este email já está a ser utilizado noutra conta. Por favor escolha outro.',
+            'nome.required' => 'Por favor, insira o nome.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'telefone.required' => 'Por favor, insira o número de telefone.',
+            'telefone.max' => 'O número de telefone não pode ter mais de 20 caracteres.',
+
+            'email.required' => 'Por favor, insira o e-mail.',
+            'email.email' => 'Por favor, insira um e-mail válido.',
+            'email.unique' => 'O e-mail fornecido já está em uso. Por favor, use outro e-mail.',
         ];
     }
 }

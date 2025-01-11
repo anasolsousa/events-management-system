@@ -22,8 +22,12 @@ class UpdateClientRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.unique' => 'Este email já está a ser utilizado noutra conta. Por favor escolha outro.',
-            'telefone.max' => 'O campo aceita no máximo de 20 caracteres',
+           'email.required' => 'Por favor, insira o e-mail.',
+            'email.email' => 'Por favor, insira um e-mail válido.',
+            'email.unique' => 'O e-mail fornecido já está em uso. Por favor, use outro e-mail.',
+
+            'telefone.required' => 'Por favor, insira o número de telefone.',
+            'telefone.max' => 'O número de telefone não pode ter mais de 20 caracteres. Por favor, ajuste o número de telefone.',
         ];
     }
 }

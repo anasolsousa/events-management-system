@@ -9,16 +9,13 @@ use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use App\Http\Requests\RegisterRequest;
 
 class AuthenticateController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-        ]);
+        $validator = Validator::make($request->all());
 
         $user = User::create([
             'name' => $request->name,
