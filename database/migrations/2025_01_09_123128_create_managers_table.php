@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('managers', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->string("nome");
-            $table->string("telefone");
-            $table->string("email")->unique(); // tornar unico 
+            $table->uuid('id')->primary();
+            $table->string('nome');
+            $table->string('telefone');
+            $table->string('email')->unique();
+            $table->uuid('profile_manager_id')->nullable();
             $table->timestamps();
+
         });
     }
 

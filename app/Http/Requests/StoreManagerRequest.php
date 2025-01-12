@@ -16,7 +16,7 @@ class StoreManagerRequest extends FormRequest
         return [
             'nome' => 'required|string|max:255',
             'telefone' => 'required|string|max:20',
-            'email' => 'required|email|unique:managers,email'
+            'email' => 'required|email|unique:managers,email',
         ];
     }
     public function messages()

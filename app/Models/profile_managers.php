@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Models\Manager;
 
-class profile_manager extends Model
+class profile_managers extends Model
 {
     use HasFactory;
     use HasUuids;

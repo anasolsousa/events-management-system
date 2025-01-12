@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Manager;
-use App\Models\profile_manager;
+use App\Models\profile_managers;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\StoreManagerRequest;
@@ -25,9 +25,25 @@ class ManagerController extends Controller
     // acessível a todos
     public function storeManager(StoreManagerRequest $request)
     {
-        $validated = $request->validate();
 
-        $manager = Manager::create($validated);
+        $managerExist = Manager::where("email", $request->email)->first();
+
+        if($managerExist)
+        {
+            return response()->json([
+                "error" => "Manager ja registado"
+            ], 400);
+        }
+
+        $validated = $request->validated();
+
+        $manager = new Manager();
+
+        $manager->nome = $request->nome;
+        $manager->telefone = $request->telefone;
+        $manager->email = $request->email;
+
+        $manager->save();
 
         return response()->json([
             'message' => 'Manager criado com sucesso',
@@ -59,17 +75,16 @@ class ManagerController extends Controller
     // acessível a user
     public function showProfile($id)
     {
-        $user = JWTAuth::parseToken()->authenticate();
 
         $manager = Manager::with('profile_manager')->findOrFail($id);
         
-        $profile = $manager->profile_manager ? [
-            'nome' => $manager->profile_manager->nome,
-            'descricao' => $manager->profile_manager->descricao,
-            'morada' => $manager->profile_manager->morada,
-            'iban' =>  $manager->profile_manager->iban,
-            'iban' =>  $manager->profile_manager->iban,
-            'salario' =>  $manager->profile_manager->salario
+        $profile = $manager->profile_managers ? [
+            'nome' => $manager->profile_managers->nome,
+            'descricao' => $manager->profile_managers->descricao,
+            'morada' => $manager->profile_managers->morada,
+            'iban' =>  $manager->profile_managers->iban,
+            'iban' =>  $manager->profile_managers->iban,
+            'salario' =>  $manager->profile_managers->salario
         ] : null;
 
         return response()->json([
@@ -86,11 +101,16 @@ class ManagerController extends Controller
     // acessível a user
     public function storeProfile(StoreProfileRequest $request, $managerId)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $managerProfileExist = ProfileManager::where("email", $request->email)->first();
 
-        $manager = Manager::findOrFail($managerId);
+        if($managerProfileExist)
+        {
+            return response()->json([
+                "error" => "Manager ja registado"
+            ], 400);
+        }
 
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         if ($manager->profile_manager) {
             return response()->json([

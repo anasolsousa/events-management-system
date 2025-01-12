@@ -23,7 +23,7 @@ class Manager extends Model
         return $this->hasMany(Booking::class);
     }
     // um manager tem um perfil 
-    public function profile_manager(){
-        return $this->hasOne(profile_manager::class);
+    public function profile_managers(){
+        return $this->hasOne(profile_managers::class);
     }
 }

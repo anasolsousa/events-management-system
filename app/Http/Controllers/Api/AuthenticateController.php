@@ -15,33 +15,59 @@ class AuthenticateController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all());
+       $userExists = User::where('email', $request->email)->first();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $token = JWTAuth::fromUser($user);
-
+       if($userExists) 
+       {
         return response()->json([
-            'message' => 'Usuário registrado com sucesso',
-            'token' => $token,
-        ]);
+            'error'=> "Email já esta registado"
+        ], 400);
+       }
+
+       $user = new User();
+
+       $user->name = $request->name;
+       $user->email = $request->email;
+       $user->password = Hash::make($request->password);
+       $user->role_id = 1;
+
+       $user->save();
+
+       $token = JWTAuth::claims([
+            'role' => $user->role->role
+       ])->fromUser($user);
+       
+       return response()->json([
+        "user" => $user,
+        "token" => $token
+       ], 201);
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        
+        $login = JWTAuth::attempt([
+            "email" => $request->email,
+            "password" => $request->password
+        ]);
 
-        if ($token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Credenciais inválidas'], 401);
+
+        if(!$login) {
+            return response()->json([
+                "error" => "Wrong credentials"
+            ],400);
         }
 
+
+        $user = auth()->user();
+
+        $token = JWTAuth::claims([
+            "role"=> "user"
+        ])->fromUser($user);
+
         return response()->json([
-            'message' => 'Login realizado com sucesso',
-            'token' => $token,
+            "message" => "Autenticado com sucesso",
+            "token" => $token
         ]);
     }
 }
